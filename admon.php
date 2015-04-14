@@ -19,27 +19,8 @@
 	</div>
 </div>
 
-<nav class="navbar navbar-default">
-	<div class="navbar-header">
-		<button type="button" class="navbar-toggle" data-toggle="colapse" data-target=".navbar-ex1-collapse"></button>
-		<span>Bienvenido @</span>
-		<span></span>
-		<span></span>
-		</button>
-		
-		<div class="collapse navbar-collapse navbar-ex1-collapse">
-			<ul class="nav navbar-nav">
-				<li><a href="suite.php">ADMINISTRAR</a></li>
-				<li><a href="evento.php">SERVICIOS</a></li>
-				<li><a href="admon.php">ASIGNACION LISTADO</a></li>
-				<li><a href="index.php">SALIR</a></li>
-			</ul>
-		</div>
 
 
-	</div>
-</nav>
-<div align="center">
 
 <?php
 	if(isset($_POST['radio'])){
@@ -55,66 +36,165 @@
 		
 	}
 ?>
-</div>
-	
-	<form action="admon.php" method="POST" enctype="multipart/form-data" name="form1">
-			<div class="container-fluid well" id="ingreso-general">
-			<thead></thead>
-			<tr>	
+
+
+
+<!--DOCENCIA INFORMACION 
+		
+		 -->
+	<div class="continer well">
+	<form action="admon.php" method="POST" enctype="multipart/form-data" name="form">
+							
+			<thead>INSERCION DATOS </thead>
+			 		<tr> 
 			<td>
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 visible-xs visible-sm visible-md visible-lg push 1" class="form-group">
-				<input type="text" class="form" placeholder="Plan" name="plancarrera" requerid autofocus>
-			</div>			
-			</tr>
-			<tr>
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 visible-xs visible-sm visible-md visible-lg" class="form-group">
-				<input type="text" class="form" placeholder="Ciclo" name="ciclocarrera" requerid autofocus>
-			</div>		
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 visible-xs visible-sm visible-md visible-lg push-1"class="form-group">
-				<input type="text" class="form" placeholder="Semestre" name="semestre" requerid>
-			</div>
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 visible-xs visible-sm visible-md visible-lg push 1" class="form-group">
-				<input type="text" class="form" placeholder="Año" name="anio" requerid autofocus>
-			</div>	
+			
+				<input type="text" placeholder="PENSUM" name="pensum" requerid autofocus>
 			</td>	
 			<td>
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 visible-xs visible-sm visible-md visible-lg push 1" class="form-group">
-				<input type="text" class="form" placeholder="Catedratico" name="catedratico" requerid autofocus>
-			</div>		
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 visible-xs visible-sm visible-md visible-lg" 	class="form-group">
-				<input type="text" class="form" placeholder="Codigo Catedratico" name="codecat" requerid>
-			</div>
-			<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3 visible-xs visible-sm visible-md visible-lg" 	class="form-group">
-				
-			</div>
-
+			
+				<input type="text" placeholder="CURSO" name="nombremateria">
+			</td>
+			<td>
+				<input type="text" placeholder="Codigo Curso" name="codigomateria">
+		    </td>
 		</tr>
-		<!--BOTON PARA ENVIAR LA CABECERA A SUS RESPECTIVAS TABLAS
-			SEGUN
+			<tr> 
+			<td>
+			
+				<input type="text" placeholder="Catedratico" name="catedratico" requerid autofocus>
+			</td>	
+			<td>
+			
+				<input type="text" placeholder="Codigo Catedratico" name="codecat">
+			</td>
+		</tr>
+		 <tr>
+		<input type="submit" name="confir" value="+"/>
+	</tr>
+<?php
+include("conexion.php");
+	//Insert Pensum y curso
+	
+
+	//Insert inf docent
+		if(isset($_POST['catedratico']) && !empty($_POST['codecat'])){
+		
+		$conex= @mysql_connect($servidor,$usuario,$pass)or die("Problema al conectar el servidor");
+		mysql_select_db($db_name);
+		$conex2= @mysql_connect($servidor,$usuario,$pass)or die("Problema al conectar el servidor");
+		mysql_select_db($db_name);
+		$conex3= @mysql_connect($servidor,$usuario,$pass)or die("Problema al conectar el servidor");
+		mysql_select_db($db_name);
+			@mysql_query("INSERT INTO Pensum(anio) VALUES ('$_POST[pensum]')",$conex2);
+			@mysql_query("INSERT INTO Cursos(idMateria,nombreMateria) VALUES ('$_POST[codigomateria]','$_POST[nombremateria]')",$conex);
+			@mysql_query("INSERT INTO docentes(nombresDocente,direccionDocente) VALUES ('$_POST[catedratico]','$_POST[codecat]')",$conex3);
+			@mysql_query("INSERT INTO Cursos_Pensum(direccionDocente) VALUES ('$_POST[catedratico]','$_POST[codecat]')",$conex3);
+			}
+?>
+
+	</form>
+</div>
+<!--FIN DOCENCIA
+		 -->
+<div class="container well">
+<form action="admon.php" method="POST" enctype="multipart/form-data" name="form">
+							
+			<thead>INSERCION DATOS </thead>
+			 	
+			<tr>	
+			<td>
+			
+				<input type="text" placeholder="Plan" name="plancarrera" requerid autofocus>
+				
+			</tr>
+			<tr>
+			
+				<input type="text" placeholder="Ciclo" name="ciclocarrera" requerid autofocus>
+				<input type="text" placeholder="Año" name="anio" requerid autofocus>
+				<input type="text" placeholder="IdDocente" name="iddocente" requerid autofocus>
+			</tr>
+
+		 <tr>
+		<input type="submit" name="confir" value="+"/>
+	</tr>
+<?php
+include("conexion.php");
+	if(isset($_POST['ciclocarrera']) && !empty ($_POST['ciclocarrera']) && !empty($_POST['plancarrera'])&& !empty($_POST['anio'])){
+		$reg= @mysql_connect($servidor,$usuario,$pass)or die("Problema al conectar el servidor");
+		mysql_select_db($db_name);
+			@mysql_query("INSERT INTO cursos_semestres(Ciclo,plan,anio,Docentes_IdDocente) VALUES ('$_POST[ciclocarrera]','$_POST[plancarrera]','$_POST[anio]','$_POST[iddocente]')",$reg);
+			}
+?>
+
+	</form>
+</div>	
+<!--FIN INFORMACION DOCENCIA
 		
 		 -->
 
-		<input type="submit" name="confir" value="Confirmar datos">
+<div class="container well">
+<form action="admon.php" method="POST" enctype="multipart/form-data" name="form">
+							
+			<thead>TOMAR EL ID DE LA TABLA CURSOS SEMESTRES Y LOS ID DE LOS ALUMNOS Y ASIGNARLOS A LA TABLA ESTUDIANTES_DE_CURSOS </thead>
+			 	
+			<tr>	
+			<td>
+			
+				<input type="text" placeholder="Plan" name="plancarrera" requerid autofocus>
+		
 
-	</div>
+		 <tr>
+		<input type="submit" name="confir" value="+"/>
+	</tr>
+<?php
+include("conexion.php");
+	if(isset($_POST['ciclocarrera']) && !empty ($_POST['ciclocarrera']) && !empty($_POST['plancarrera'])&& !empty($_POST['anio'])){
+		$reg= @mysql_connect($servidor,$usuario,$pass)or die("Problema al conectar el servidor");
+		mysql_select_db($db_name);
+			@mysql_query("INSERT INTO cursos_semestres(Ciclo,plan,anio,Docentes_IdDocente) VALUES ('$_POST[ciclocarrera]','$_POST[plancarrera]','$_POST[anio]','$_POST[iddocente]')",$reg);
+			}
+?>
+
 	</form>
-	<?php 
-		include('conexion.php');
-		//$insercionsicat= @mysql_query("INSERT INTO Docentes(nombreDocente, direccionDocente) VALUES('catedratico','codecat')");
-			 if (isset($_POST['confir'])) {
-			 	$plancarrera=$_POST['plancarrera'];
-			 	$ciclocarrera=$_POST['ciclocarrera'];
-			 	$semestre=$_POST['semestre'];
-			 	$aniocarrera=$_POST['anio'];
-			 	$catedratico=$_POST['catedratico'];
-			 	$codigocatedra=$_POST['codecat'];
-			//$insersionrelacion=@mysql_query("INSERT INTO Estudiantes_de_cursos(Estudiantes_idEstudiantes,Cursos_semestres_idCurso_semestre)");
-	
-			$insercionsimple= @mysql_query("INSERT INTO cursos_semestres(plan, Ciclo, anio) VALUES('$plancarrera','$ciclocarrera','$aniocarrera')");
+</div>	
 
-			echo "se insertaron los datos";
-		}
-		?>
+	
+	<?php
+	include("conexion.php");
+	
+	$query = "SELECT * FROM docentes";
+      		$result = mysql_query($query);
+					
+		 	   echo "<table border='2'>";      
+		     echo "<tr>";     
+		     echo "<th>ID</TH><th>Nombre</TH><TH>Codigo</th>";      
+		     echo "</tr>";
+      			while ($row = mysql_fetch_array($result)){        
+      					echo "<TR>";        
+      					echo "<td>",$row['idDocente'], "</td><td>", $row['nombresDocente'], "</td><td>", $row['direccionDocente'], "</td>";        echo "</tr>";     $idrevisa='idEstudiante'; }
+      					echo "</TABLE>";	
+					
+      						$rs = mysql_query("SELECT MAX(idDocente) FROM docentes");
+							if ($row = mysql_fetch_row($rs)) {
+							$id = trim($row[0]);
+							echo $id;
+							
+							}	
+
+$query2 = "SELECT * FROM cursos_semestres";
+      		$result2 = mysql_query($query2);
+					
+		 	   echo "<table border='2'>";      
+		     echo "<tr>";     
+		     echo "<th>ID</TH><th>Nombre</TH><TH>Codigo</th>";      
+		     echo "</tr>";
+      			while ($row = mysql_fetch_array($result)){        
+      					echo "<TR>";        
+      					echo "<td>",$row['idCursoSemestre'], "</td><td>", $row['Plan'], "</td><td>", $row['anio'], "</td>";        echo "</tr>";     $idrevisa='idEstudiante'; }
+      					echo "</TABLE>";	
+	?>
+
 
 
 
@@ -132,7 +212,8 @@
       <label><input type="radio" name="radio" value="s" />SI</label>
       <label><input type="radio" name="radio" value="n" checked/>NO</label>
       
-<input type="submit" name="button" class="btn" id="button" value="Actualizar">
+<input type="submit" name="btnupdate" class="btn" id="button1" value="Actualizar">
+<input type="submit" name="btnConfirmar" class="btn" id="button3" value="Grabar">
 
     </td>
     </tr>
@@ -156,7 +237,14 @@
 
 <?php
 include('conexion.php');
-		if(isset($_POST['radio'])){
+			$rs = mysql_query("SELECT MAX(idEstudiante) FROM estudiantes");
+			if ($row = mysql_fetch_row($rs)) {
+			$ultimoid = trim($row[0]);
+			echo $ultimoid;
+			}
+							
+
+		if(isset($_POST['btnupdate'])){
 		
 			require_once 'PHPExcel/Classes/PHPExcel/IOFactory.php';
 			
@@ -174,23 +262,54 @@ include('conexion.php');
 		   
 		    $carnetalumno=$objCelda['B'];
 		    $nombrealumno=$objCelda['C'];
-		   
 		    $agregar= @mysql_query("INSERT INTO estudiantes(carnet,nombresEstudiante) VALUES('$carnetalumno','$nombrealumno')");
 			
+			//consulta de los ids ingresados
+			//$consulta=@mysql_query(query)
 			
+		
+			//$relacional1=@mysql_query("INSERT INTO Estudiantes_de_cursos(Estudiantes_idEstudiantes,Cursos_semestres_idCurso_semestre) VALUES('$idEstudiante'],'$idRelacional')");
+			
+		
+			
+			}
+			}
+			//consulta
+			$query = "SELECT idEstudiante FROM estudiantes where idEstudiante>'$ultimoid'";
+      		$result = mysql_query($query);
+      		$i=0;
+      		$relacioncursos="3";
+      		$tamano=0;
+      			while ($row = mysql_fetch_array($result)){        
+      					echo '<br>',$row['idEstudiante']; 
+      					//asignar un nuevo arreglo para guardarlo
+      					$idcopiaestudiante[$i]=$row['idEstudiante'];
+      					$i++;
+      					//se almacenara en la tabla intermedia
+      					$tamano++;    
+      				}
 
+      				for($i=0 ; $i<$tamano; $i++){
+      			    $valor=$idcopiaestudiante[$i];
+      			    echo $valor;
+					$insertarrelacion=@mysql_query("INSERT INTO estudiantes_de_cursos(Estudiantes_idEstudiante,Cursos_semestres_idCurso_semestre)VALUES('$valor','$relacioncursos')");
+					}
+      				
+					
+      					
+								
 			//RECIBO LAS VARIABLES RELACIONADAS Y HAGO LO SIGUIENTE
 			//&CONDICION1REL = -¡ INSERT INTO TABLARELACION(CAMPO) VALORES(VARIABLES INTERVIENEN RECIBIDAS)
 	
 			//$insercionrel= @mysql_query("INSERT INTO Estudiantes_de_curso($carnetalumno)VALUES()");
 					//INSERTAR TODO
 					//CADA QUE EL BOTON ENVIAR 
-		}
+		
 			//TODO SIGNIFICA 
 
 						
 
-			}
+			
 	?>   
     </tbody>
 </table>	
