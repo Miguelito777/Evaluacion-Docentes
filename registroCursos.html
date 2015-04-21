@@ -55,6 +55,9 @@
 							<td>
 								<input type="text" class="form-control" placeholder="Nombre Curso" id="nombrecurso">
 							</td>
+							<td>
+								<button type="button" class="btn btn-primary btn-lg btn-block" onclick="registrarCurso()">Guardar</button>
+							</td>
 						</tr>
 					</form>
 				</table>
@@ -69,8 +72,6 @@
 				<div class="col-xs-4"></div>
 				<div class="col-xs-4">
 					
-					<button type="button" class="btn btn-primary btn-lg btn-block" onclick="registrarCurso()">Guardar</button>
-
 				</div>
 				<div class="col-xs-4">
 				</div>
@@ -80,5 +81,8 @@
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/modelo.js"></script>
 <script type="text/javascript" src="js/controlador.js"></script>
+<script>
+	verCursosAlmacenados();
+</script>
 </body>
 </html>

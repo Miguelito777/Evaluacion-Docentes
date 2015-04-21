@@ -62,6 +62,20 @@ Cursos.prototype.consultar = function(){
 		}
 	})
 }
+
+Cursos.prototype.consultarPensumActual = function(){
+	var _this = this;
+	$.ajax({
+		data : {consultarcursospensumactual : true},
+		url : "controlador.php",
+		type : "POST",
+		success : function(data){
+			var cursos_object = $.parseJSON(data);
+			_this.cursos_array = _this.convertirObject(cursos_object);
+		}
+	})
+}
+
 Cursos.prototype.guardarNuevoCurso = function(idcurso,nombrecurso){ 
 	$.ajax({
 		data : {idcurso : idcurso, nombrecurso : nombrecurso},
@@ -117,17 +131,41 @@ Preguntas.prototype.convertirObject = function(object){
 
 Preguntas.prototype.mostrar = function(arraypreguntas){
 	var _this = this;
-	console.log(arraypreguntas);
-	for (var i = 0; i < arraypreguntas.length; i++) {
-		document.getElementById("preguntas").innerHTML = "<p class='lead text-info'>¿"+arraypreguntas[i][1]+"</p>";
+	console.log(arraypreguntas.length);
+	
+		document.getElementById("preguntas").innerHTML = "<h1><br /><p class='text-info'>¿"+arraypreguntas[i][1]+"</p></h1>";
 		this.respuestas(arraypreguntas[i][0]);
-		setTimeout(function(){ 
-			for (var i = 0; i < _this.respuestas_array.length; i++) {
-				$("#tablerespuestasrarios").append("<td><div class='radio'> <label><input type='radio' name='optionsRadios' id='optionsRadios1' value='option1'></label></div></td>");
-				$("#tablerespuestastexto").append("<td><p class='lead'>"+_this.respuestas_array[i][1]+"</p></td>"); 	
-			 }; 
+		setTimeout(function(){
+			for (var k = 0; k < _this.respuestas_array.length; k++) {
+				$("#tablerespuestas").append("<tr><td><p class='lead'>"+_this.respuestas_array[k][1]+"</p></td></tr>"); 	
+			 	
+			 };
+				var table = document.getElementById("tablerespuestas");
+				var rows = table.getElementsByTagName("tr");
+				for (var j = 0; j < rows.length; j++) {
+					var idpensum = _this.respuestas_array[j][0];
+					var currentRow = table.rows[j];
+					var createClickHandler = 
+					function (idpensum,idpregunta) {
+						return function(){
+							/*$.ajax({
+							data : {idpensum : idpensum, nombrepensum : nombrepensum},
+							url : "controlador.php",
+							type : "POST",
+							success : function(data){
+								if(data == 1)
+									window.location = "../EvaluacionDocentes/relacionPensumCursos.html"
+								else
+									console.log("Error al guardar en session la variable de idpensum y pensum");
+								}
+							})*/
+							alert("Id pregunta "+idpregunta+" Id Respuesta "+idpensum);
+						}
+					};
+					currentRow.onclick = createClickHandler(idpensum,arraypreguntas[i][0]);	
+				};
 		},50)
-	};
+
 }
 
 Preguntas.prototype.respuestas = function(idpregunta){
@@ -162,6 +200,28 @@ Almacenar.prototype.pensum = function(pensum){
 	})
 }
 
+Almacenar.prototype.pregunta = function(pregunta){
+	$.ajax({
+		data : {pregunta : pregunta},
+		url : "controlador.php",
+		type : "POST",
+		success : function(data){
+			console.log(data);
+		}
+	})
+}
+
+Almacenar.prototype.respuesta = function(respuesta){
+	$.ajax({
+		data : {respuesta : respuesta},
+		url : "controlador.php",
+		type : "POST",
+		success : function(data){
+			console.log(data);
+		}
+	})
+}
+
 /**
 * Clase que realiza consultas
 */
@@ -186,7 +246,6 @@ Consultas.prototype.convertirObject = function(object){
 
 Consultas.prototype.pensum = function(){
 	var _this = this;
-	var pensum;
 	$.ajax({
 		data : {verpensums : true},
 		url : "controlador.php",
@@ -196,4 +255,170 @@ Consultas.prototype.pensum = function(){
 			_this.pensum_array = _this.convertirObject(pensum_object);
 		}
 	})
+}
+
+Consultas.prototype.preguntas = function(){
+	var _this = this;
+	$.ajax({
+		data : {verpreguntas : true},
+		url : "controlador.php",
+		type : "POST",
+		success : function(data){
+			var preguntas_object = $.parseJSON(data);
+			_this.preguntas_array = _this.convertirObject(preguntas_object);
+		}
+	})
+}
+
+Consultas.prototype.respuestas = function(){
+	var _this = this;
+	$.ajax({
+		data : {verrespuestas : true},
+		url : "controlador.php",
+		type : "POST",
+		success : function(data){
+			var respuestas_object = $.parseJSON(data);
+			_this.respuestas_array = _this.convertirObject(respuestas_object);
+			//alert(_this.respuestas_array);
+		}
+	})
+}
+
+/**
+* Clase que realiza las relaciones
+*/
+
+function Relaciones (){
+
+}
+
+Relaciones.prototype.setArray = function(array){
+	this.array = array;
+}
+
+Relaciones.prototype.setArrayDos = function(array,elemento){
+	this.arraydos = array;
+	this.elemento = elemento;
+}
+
+Relaciones.prototype.actualizarArray = function(dato,pensumcurso){
+	
+	var encontrado = -1;
+
+	for (var i = 0; i < this.array.length; i++) {
+		if (this.array[i][0] == dato) {
+			encontrado = i;
+			break;
+		};
+	};
+
+	if (encontrado == -1) {
+		var relacion = [dato,pensumcurso];
+		this.array.push(relacion);	
+	}
+	else{
+		this.array.splice(encontrado,1);
+	}		
+}
+
+Relaciones.prototype.actualizarArrayUnidimencional = function(dato){
+	var encontrado = -1;
+
+	for (var i = 0; i < this.array.length; i++) {
+		if (this.array[i] == dato) {
+			encontrado = i;
+			break;
+		};
+	};
+
+	if (encontrado == -1) {
+		this.array.push(dato);	
+	}
+	else{
+		this.array.splice(encontrado,1);
+	}		
+}
+
+Relaciones.prototype.actualizarArrayUnidimencionalDos = function(dato){
+	var encontrado = -1;
+
+	for (var i = 0; i < this.arraydos.length; i++) {
+		if (this.arraydos[i] == dato) {
+			encontrado = i;
+			break;
+		};
+	};
+
+	if (encontrado == -1) {
+		this.arraydos.push(dato);	
+	}
+	else{
+		this.arraydos.splice(encontrado,1);
+	}		
+}
+
+Relaciones.prototype.guardarPensumCurso = function(pensumcurso){
+	$.ajax({
+		data : {pensum_curso : pensumcurso},
+		url : "controlador.php",
+		type : "POST",
+		success : function(data){
+			if (data == 1)
+				window.location = "../EvaluacionDocentes/suite.php";
+		}
+	})
+}
+
+Relaciones.prototype.guardarPreguntasRespustas = function(preguntas,respuestas){
+	$.ajax({
+		data : {preguntas_seleccionadas: preguntas, respuestas_seleccionadas : respuestas},
+		url : "controlador.php",
+		type : "POST",
+		success : function(data){
+			if (data == 1)
+				window.location = "../EvaluacionDocentes/suite.php";
+		}
+	})
+}
+
+Relaciones.prototype.guardarCursosPreguntas = function(cursos,preguntas){
+	$.ajax({
+		data : {cursos_seleccionados: cursos, preguntas_seleccionadas : preguntas},
+		url : "controlador.php",
+		type : "POST",
+		success : function(data){
+			if (data == 1)
+				window.location = "../EvaluacionDocentes/suite.php";
+			alert(data);
+		}
+	})
+}
+Relaciones.prototype.actualizarTabla = function (){
+	document.getElementById(this.elemento).innerHTML = "";
+	document.getElementById(this.elemento).innerHTML = "<table class='table' id='respuestasseleccionadas'><tr><th>Respuestas Seleccionadas</th></tr></table>";
+	for (var i = 0; i < this.arraydos.length; i++) {
+		$("#respuestasseleccionadas").append("<tr><td>"+this.arraydos[i]+"</td></tr>");
+	};
+}
+
+/**
+*
+*/
+
+function convertirArray(){
+
+}
+
+
+convertirArray.prototype.convertirArrayaObject = function(){	
+    obj = null,
+    this.output = [];
+    for (var i = 0; i < this.array.length; i++) {
+        obj = {};
+        for (var k = 0; k < this.keys.length; k++) {
+            obj[this.keys[k]] = this.array[i][k];
+      	}
+      	this.output.push(obj);
+    }
+
 }

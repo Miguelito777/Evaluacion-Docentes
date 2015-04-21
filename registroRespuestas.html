@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Estudiantes</title>
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="css/estilos.css">
+	</head>
+	<body>
+		<div class="container">
+			<div class="row bg-info">
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4">
+					<table class="table table-condensed ">
+						<thead>
+						</thead>
+						<tbody>
+							<tr>
+								<th>Estudiante:</th>
+								<td id = "nombre"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-4">
+					
+				</div>
+				<div class="col-xs-8">
+					<br>
+					<h1>
+						Registro de Respuestas
+					</h1>
+				</div>
+				<br><br><br>>
+			</div>
+
+			<div class="row">
+				<table class = "table">
+					<form action="controlador.php" type="POST">
+						<tr>
+							<td>
+								<p class="		lead text-center">Ingresar Respuesta:</p>
+							</td>
+							<td>
+								<input type="text" class="form-control" placeholder="Id Curso" id="respuesta">
+							</td>
+							<td>
+								<button type="button" class="btn btn-primary btn-lg btn-block" onclick="registrarRespuesta()">Guardar</button>
+							</td>
+						</tr>
+					</form>
+				</table>
+					
+			</div>
+
+			<div class="row">
+				<table class="table table-striped" id="tables"></table>
+			</div>
+
+			<div class="row">
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4">
+					
+				</div>
+				<div class="col-xs-4">
+				</div>
+			</div>
+			
+<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/modelo.js"></script>
+<script type="text/javascript" src="js/controlador.js"></script>
+<script>
+	verRespuestas();
+</script>
+</body>
+</html>

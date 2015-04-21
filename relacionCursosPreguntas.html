@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<title>Estudiantes</title>
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<link rel="stylesheet" href="css/estilos.css">
+	</head>
+	<body>
+		<div class="container">
+			<div class="row bg-info">
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4">
+					<table class="table table-condensed ">
+						<thead>
+						</thead>
+						<tbody>
+							<tr>
+								<th>Administrador:</th>
+								<td id = "nombre"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+			<div class="row" id="descripcion">
+				<div >
+					<br>
+					<h1>
+						Seleccione los curosos a los que asignara preguntas...
+					</h1>
+				</div>
+				<br><br><br>
+			</div>
+
+			<div class="row"  >
+				
+					
+			</div>
+
+			<div class="row" id = "preguntas_respuestas">
+
+				<table class = "table" id = "cursos">
+					</table>
+					
+				<table class = "table table-striped" id = "tables">
+					
+				</table>
+					
+			</div>
+
+			<div class="row">
+				<div class="col-xs-4"></div>
+				<div class="col-xs-4" id = "relacionpreguntasrespuestas">
+					<button class="btn btn-lg btn-primary btn-block" type="button" id = "relacionar">Asignar Preguntas</button>
+				</div>
+				<div class="col-xs-4"></div>
+			</div>
+
+			
+<script type="text/javascript" src="js/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/modelo.js"></script>
+<script type="text/javascript" src="js/controlador.js"></script>
+
+<script>
+	verCursosAlmacenadosActuales();
+</script>
+
+</body>
+</html>

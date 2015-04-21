@@ -47,7 +47,9 @@
 							<td>
 								<input type="text" class="form-control" placeholder="Id Curso" id="pensum">
 							</td>
-							
+							<td>
+								<button type="button" class="btn btn-primary btn-lg btn-block" onclick="registrarPensum()">Guardar</button>
+							</td>
 						</tr>
 					</form>
 				</table>
@@ -55,15 +57,13 @@
 			</div>
 
 			<div class="row">
-				<table class="table table-striped" id="pensumtable"></table>
+				<table class="table table-striped" id="tables"></table>
 			</div>
 
 			<div class="row">
 				<div class="col-xs-4"></div>
 				<div class="col-xs-4">
 					
-					<button type="button" class="btn btn-primary btn-lg btn-block" onclick="registrarPensum()">Continuar</button>
-
 				</div>
 				<div class="col-xs-4">
 				</div>
@@ -73,5 +73,8 @@
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/modelo.js"></script>
 <script type="text/javascript" src="js/controlador.js"></script>
+<script>
+	verPensumns();
+</script>
 </body>
 </html>

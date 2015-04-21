@@ -133,6 +133,71 @@ class Almacenar extends Conexion
 		$this->closeconnect();
 		return true;
 	}
+
+	function pregunta($pregunta){
+		$query = "INSERT into Preguntas(Pregunta) values ('$pregunta')";
+		if (!parent:: __construct()) 
+			die("Eror en la conexion para almacenar los pensum "+mysql_error());
+		if (!$almacenar = mysql_query($query)) {
+			die("Error al almacenar los pensum "+mysql_error());
+			return false;
+		}
+		$this->closeconnect();
+		return true;
+	}
+
+	function respuesta($respuesta){
+		$query = "INSERT into Respuestas (Respuestascol) values ('$respuesta')";
+		if (!parent:: __construct()) 
+			die("Eror en la conexion para almacenar los pensum "+mysql_error());
+		if (!$almacenar = mysql_query($query)) {
+			die("Error al almacenar los pensum "+mysql_error());
+			return false;
+		}
+		$this->closeconnect();
+		return true;
+	}
+
+	function pensumCursos($idcurso,$idpensum){
+		$idpensumint = (int)$idpensum;
+		$query = "INSERT into Cursos_Pensum (Cursos_idMateria,Pensum_idPensum) values ('$idcurso',$idpensumint)";
+		if (!parent:: __construct()) 
+			die("Eror en la conexion para almacenar los pensum "+mysql_error());
+		if (!$almacenar = mysql_query($query)) {
+			die("Error al almacenar los pensum "+mysql_error());
+			return false;
+		}
+		$this->closeconnect();
+		return true;
+	}
+
+	function preguntasRespuestas($idpregunta,$idrespuesta){
+		$idpreguntaint = (int)$idpregunta;
+		$idrespuestaint = (int)$idrespuesta;
+		$query = "INSERT into Preguntas_has_Respuestas values ($idpreguntaint,$idrespuestaint)";
+		if (!parent:: __construct()) 
+			die("Eror en la conexion para almacenar la relacion preguntas y respuesas"+mysql_error());
+		if (!$almacenar = mysql_query($query)) {
+			die("Error al almacenar las preguntas y respuestas "+mysql_error());
+			return false;
+		}
+		$this->closeconnect();
+		return true;
+	}
+
+	function CursosPreguntas($idcurso,$idpregunta){
+		$idcursoint = (int)$idcurso;
+		$idpreguntaint = (int)$idpregunta;
+		$query = "INSERT into Cursos_semestres_has_Preguntas values ($idcursoint,$idpreguntaint)";
+		if (!parent:: __construct()) 
+			die("Eror en la conexion para almacenar la relacion preguntas y respuesas"+mysql_error());
+		if (!$almacenar = mysql_query($query)) {
+			die("Error al almacenar las preguntas y respuestas "+mysql_error());
+			return false;
+		}
+		$this->closeconnect();
+		return true;
+	}
 }
 
 /**
@@ -192,6 +257,15 @@ class Respuestas extends Conexion
 		else
 			return false;
 	}
+
+	function buscarTodos(){
+		$query = "SELECT * from Respuestas";
+		if (!parent:: __construct()) 
+			die("Error en la conexion para buscar las respuestas"+mysql_error());
+		if (!$this->respuestas = mysql_query($query)) 
+			die("Error en la busqueda de las respuestas "+mysql_error());
+		$this->closeconnect();
+	}
 }
 
 /**
@@ -201,6 +275,7 @@ class Consultas extends Conexion
 {
 	public $pensum;
 	public $cursos;
+	public $preguntas;
 	function __construct()
 	{
 		
@@ -208,6 +283,15 @@ class Consultas extends Conexion
 
 	function cursos(){
 		$query = "SELECT * from Cursos";
+		if (!parent:: __construct()) 
+			die("Error en la conexion para buscar los pensum "+mysql_error());
+		if (!$this->cursos = mysql_query($query)) 
+			die("Error en la busqueda de los pensum "+mysql_error());
+		$this->closeconnect();
+	}
+
+	function cursosActuales(){
+		$query = "SELECT CS.idCurso_semestre, C.nombreMateria from Cursos C inner join Cursos_Pensum CP on C.idMateria = CP.Cursos_idMateria and CP.Pensum_idPensum = 1  inner join Cursos_semestres CS  on CP.idCurso_pensum = CS.Cursos_Pensum_idCurso_pensum";
 		if (!parent:: __construct()) 
 			die("Error en la conexion para buscar los pensum "+mysql_error());
 		if (!$this->cursos = mysql_query($query)) 
@@ -231,9 +315,25 @@ class Consultas extends Conexion
 		$this->closeconnect();
 	}
 
+	function preguntas(){
+		$query = "SELECT * from Preguntas";
+		if (!parent:: __construct()) 
+			die("Error en la conexion para buscar los pensum "+mysql_error());
+		if (!$this->preguntas = mysql_query($query)) 
+			die("Error en la busqueda de los pensum "+mysql_error());
+		$this->closeconnect();
+	}
+
 	function obtenerPensum(){
-		if($pensummodelo = mysql_fetch_array($this->pensum,MYSQL_ASSOC))
-			return $pensummodelo;
+		if($preguntamodelo = mysql_fetch_array($this->pensum,MYSQL_ASSOC))
+			return $preguntamodelo;
+		else
+			return false;
+	}
+
+	function obtenerPregunta(){
+		if($preguntamodelo = mysql_fetch_array($this->preguntas,MYSQL_ASSOC))
+			return $preguntamodelo;
 		else
 			return false;
 	}
